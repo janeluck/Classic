@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import A from './InputButonPanel/index.js'
+import {InputButtonPanelExample} from './InputButtonPanel/index.js'
 
 export const Counter = ({ counter, increment, doubleAsync }) => (
   <div style={{ margin: '0 auto' }} >
@@ -13,7 +13,7 @@ export const Counter = ({ counter, increment, doubleAsync }) => (
       Double (Async)
     </button>
 
-    <A />
+    <InputButtonPanelExample />
   </div>
 )
 Counter.propTypes = {

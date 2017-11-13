@@ -1,6 +1,5 @@
 import React from 'react'
 import DuckImage from '../assets/Duck.jpg'
-import 'antd/dist/antd.css'
 import './HomeView.scss'
 export const HomeView = () => (
   <div>
