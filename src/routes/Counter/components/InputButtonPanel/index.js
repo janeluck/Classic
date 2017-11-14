@@ -7,7 +7,10 @@ import classnames from 'classnames'
 //import addEventListener from 'add-dom-event-listener'
 import _ from 'lodash'
 import {Icon as SvgIcon} from 'antd'
+import {preventDefault, stopPropagation} from 'components/common/util'
 
+function noop() {
+}
 
 function isEmpty(v) {
   return v === '0' || !v
@@ -15,6 +18,7 @@ function isEmpty(v) {
 
 // 内部input组件用于外部渲染占位
 export class InnerInput extends React.Component {
+  static isInputButtonPanelInput = true
 }
 
 class InnerButton extends React.Component {
@@ -24,14 +28,13 @@ class InnerButton extends React.Component {
     className: PropTypes.string
   }
   static defaultProps = {
-    onMouseDown: function (value) {
-    },
+    onMouseDown: noop,
   }
 
   onMouseDown = (event) => {
     const type = this.props.type
     // 阻止虚拟键盘获得焦点, 保留原输入框的focus状态
-    event.preventDefault()
+    preventDefault(event)
     this.props.onMouseDown(type)
   }
 
@@ -49,16 +52,30 @@ export default class InputButtonPanel extends Component {
     // 是否展示确定按钮
     showOk: PropTypes.bool,
     // 点击确定的交互事件
-    onOk: PropTypes.func
+    onOk: PropTypes.func,
+    value: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ])
   }
   static defaultProps = {
-    onChange: function (value) {
-      console.log(value)
-    },
+    onChange: noop,
     showOk: false,
-    onOk: function (value) {
-      console.log(value)
+    onOk: noop
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: props.value || ''
     }
+  }
+  shouldComponentUpdate(nextProps, nextState){
+    if('value' in nextProps){
+      return nextProps.value !== nextState.value
+    }
+
+    return true
   }
 
 
@@ -117,10 +134,51 @@ export default class InputButtonPanel extends Component {
   }
 
 
+  onInputChange = (event) => {
+    const val = event.target.value
+    const {props} = this
+    this.setState({
+      value: val
+    }, ()=>{
+
+    })
+
+  }
+
+
+  getInputElement = (element) => {
+    const {value} = this.state
+    return <input {...element.props} onChange={this.onInputChange} value={value}/>
+  }
+
+  renderChildren = (children) => {
+
+    const getNewChildren = children => {
+      return React.Children.map(children, child => {
+        if (!child.type) return child
+        if (child.type.isInputButtonPanelInput) {
+          return this.getInputElement(child)
+        }
+        return React.cloneElement(
+          child,
+          {},
+          getNewChildren(child.props.children)
+        )
+
+      })
+    }
+
+
+    return getNewChildren(children)
+
+
+  }
+
   render() {
 
     const {showOk} = this.props
     return (<div>
+      {this.renderChildren(this.props.children)}
       <div ref={wrap => this.wrap = wrap} className="InputButtonPanelWrap clearfix" onMouseDown={function (event) {
         event.preventDefault()
       }}>
@@ -239,7 +297,7 @@ export class InputButtonPanelExample extends Component {
       {/* <input type="text" value={value} onChange={this.handleChange}/>*/}
       <InputButtonPanel onChange={this.onChange} showOk onOk={this.onOk}>
 
-        <div><span>使用</span> <InnerInput/><span>积分</span> <span>抵扣</span><span>{value * 10}</span></div>
+        <div><span>使用</span> <InnerInput disabled/><span>积分</span> <span>抵扣</span><span>{value * 10}</span></div>
         <div><span>当前积分：</span><span>{value}</span></div>
 
       </InputButtonPanel>
