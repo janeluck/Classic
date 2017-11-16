@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {InputButtonPanelExample} from './InputButtonPanel/index.js'
 import InputButtonPanel from './InputButtonPanel/index.js'
-
+import 'components/lib/APromise'
 
 class Counter extends Component{
   constructor(props){

@@ -297,7 +297,7 @@ export class InputButtonPanelExample extends Component {
       {/* <input type="text" value={value} onChange={this.handleChange}/>*/}
       <InputButtonPanel onChange={this.onChange} showOk onOk={this.onOk}>
 
-        <div><span>使用</span> <InnerInput disabled/><span>积分</span> <span>抵扣</span><span>{value * 10}</span></div>
+        <div><span>使用</span> <InnerInput /><span>积分</span> <span>抵扣</span><span>{value * 10}</span></div>
         <div><span>当前积分：</span><span>{value}</span></div>
 
       </InputButtonPanel>
