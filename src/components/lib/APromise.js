@@ -1,52 +1,73 @@
 import _ from 'lodash'
 // 三种状态
-const PENDING = Symbol()
-const RESOLVED = Symbol()
-const REJECTED = Symbol()
+const PENDING = 'pending'
+const RESOLVED = 'resolved'
+const REJECTED = 'rejected'
 
 class APromise {
+
   constructor(func) {
     if (!_.isFunction(func)) {
-      throw Error('param must be a function!')
+      throw Error('APromise resolver undefined is not a function')
     }
-    this.status = PENDING
+    this.APromiseStatus = PENDING
     this.value = null
     this.handler = {}
     const reject = (result) => {
-      this.status = REJECTED
+      this.APromiseStatus = REJECTED
       this.value = result
-      this.handler.onReject && this.handler.onReject(result)
+      this.next(this.handler)
     }
     const resolve = (result) => {
-      this.status = RESOLVED
+      this.APromiseStatus = RESOLVED
       this.value = result
-      this.handler.onResolve && this.handler.onResolve(result)
+      this.next(this.handler)
     }
     func(resolve, reject)
 
   }
 
-
-  then(onResolve, onReject) {
-    switch (this.status) {
+  next({onReject, onResolve}) {
+    switch (this.APromiseStatus) {
       case REJECTED:
-        onReject(this.value)
+        onReject && onReject(this.value)
         break
       case RESOLVED:
-        onResolve(this.value)
+        onResolve && onResolve(this.value)
         break
       case PENDING:
         this.handler = {onResolve, onReject}
 
     }
   }
+
+
+  then(onResolve, onReject) {
+   // this.next({onResolve, onReject})
+    return new APromise((resolve, reject) => {
+      this.next({
+        onResolve: (result) => {
+          resolve(onResolve(result))
+        },
+        onReject: (result) => {
+          reject(onReject(result))
+        }
+      })
+    })
+
+  }
 }
 
 var p = new APromise(function (resolve, reject) {
   console.log('new APromise')
-  setTimeout(resolve, 2000)
+  resolve()
 })
 
 p.then(function (data) {
   console.log('APromise resolved!')
+  return 'then0 exec'
+}).then(function (data) {
+  console.log(data)
+  console.log('22222')
 })
+
