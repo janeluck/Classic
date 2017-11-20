@@ -36,7 +36,6 @@ class Counter extends Component{
     }}>click</button>
 
     <InputButtonPanelExample />
-    <InputButtonPanel />
   </div>)
   }
 }
