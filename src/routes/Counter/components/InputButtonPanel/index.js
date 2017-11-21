@@ -67,16 +67,18 @@ export default class InputButtonPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: props.value || ''
+      value: props.value || '',
+      inputs: []
     }
     this.innerinputid = 0
-    this.innerinput = []
+    this.innerinputOnchanges = []
+
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if ('value' in nextProps) {
-      return nextProps.value !== nextState.value
-    }
+    /* if ('value' in nextProps) {
+       return nextProps.value !== nextState.value
+     }*/
 
     return true
   }
@@ -101,8 +103,7 @@ export default class InputButtonPanel extends Component {
     let activeEl = document.activeElement
     if (['INPUT', 'TEXTAREA'].indexOf(activeEl.tagName) < 0) return
 
-    debugger
-    console.log(activeEl['data-set']['innerinputid'])
+    const i = activeEl['dataset']['innerinputid']
     const value = activeEl.value || ''
     const {selectionStart, selectionEnd} = activeEl
 
@@ -110,24 +111,35 @@ export default class InputButtonPanel extends Component {
     // 计算光标所在的位置
     const caretPosition = result.length - (value.length - selectionEnd)
     const {onChange, onOk} = this.props
+    const handleChange = (v, i) => {
+      const inputs = this.state.inputs.slice()
+      inputs[i] = v
+      this.setState({
+        inputs
+      }, ()=>{
+        this.innerinputOnchanges[i](v)
+      })
+      onChange(v)
+    }
+
     switch (type) {
       case 'clear':
-        onChange('')
+        handleChange('', i)
         break
       case 'back':
-        onChange(result)
+        handleChange(result, i)
         break
       case '.':
-        if (value.indexOf('.') < 0) onChange(result)
+        if (value.indexOf('.') < 0) handleChange(result, i)
         break
       case '00':
-        onChange(isEmpty(value) ? 0 : result)
+        handleChange(isEmpty(value) ? 0 : result, i)
         break
       case 'sure':
         onOk(value)
         break
       default:
-        onChange(isEmpty(value) ? type : result)
+        handleChange(isEmpty(value) ? type : result, i)
         break
     }
 
@@ -139,40 +151,35 @@ export default class InputButtonPanel extends Component {
   }
 
 
-  onInputChange = (event) => {
-    const val = event.target.value
-    const {props} = this
-    /*this.setState({
-      value: val
-    }, () => {
+  getInputElement = (element, i) => {
+    const {value, onChange, ...others} = element.props
 
-    })*/
+    const onInputChange = (event) => {
+      const v = event.target.value
+      let inputs = this.state.inputs.slice()
+      inputs[i] = v
 
-
-  }
-
-
-
-
-
-  getInputElement = (element) => {
-    const {value, onChange, ...others} = element.prop
-
-
-    const onInputChange = (e) => {
-
+      this.setState({
+        inputs
+      }, () => {
+        onChange(v)
+      })
     }
+    this.innerinputOnchanges.push(onChange)
 
-    return this.innerinput.push(<input data-innerinputid={this.innerinputid++} {...others} onChange={this.onInputChange}/>)
+
+    let val = this.state['inputs'][i] || value
+    return (<input {...others} value={val}
+                   data-innerinputid={i} onChange={onInputChange}/>)
   }
 
   renderChildren = (children) => {
-
+    let i = 0
     const getNewChildren = children => {
       return React.Children.map(children, child => {
         if (!child.type) return child
         if (child.type.isInputButtonPanelInput) {
-          return this.getInputElement(child)
+          return this.getInputElement(child, i++)
         }
         return React.cloneElement(
           child,
@@ -285,13 +292,17 @@ export class InputButtonPanelExample extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: 0
+      value0: 0,
+      value1: 0
     }
 
   }
 
-  onChange = (v) => {
-    this.setState({value: v})
+  onChange0 = (v) => {
+    this.setState({value0: v})
+  }
+  onChange1 = (v) => {
+    this.setState({value1: v})
   }
   handleChange = (e) => {
     const value = e.target.value
@@ -306,13 +317,13 @@ export class InputButtonPanelExample extends Component {
 
   render() {
 
-    const value = this.state.value
+    const {value0, value1} = this.state
     return (<div>
       <InputButtonPanel showOk onOk={this.onOk}>
-        <div><span>使用</span> <InnerInput onChange={this.onChange} value={value}/><span>积分</span>
-          <span>抵扣</span><span>{value * 10}</span></div>
-        <div><span>当前积分：</span><span>{value}</span></div>
-
+        <div><span>使用</span> <InnerInput autoFocus onChange={this.onChange0} value={value0}/><span>积分</span>
+          <span>抵扣</span><span>{value0 }</span></div>
+        <div><span>当前积分：</span><span>{value1}</span></div>
+<InnerInput onChange={this.onChange1} value={value1}/>
       </InputButtonPanel>
 
     </div>)
