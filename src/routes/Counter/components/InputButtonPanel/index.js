@@ -19,6 +19,10 @@ function isEmpty(v) {
 // 内部input组件用于外部渲染占位
 export class InnerInput extends React.Component {
   static isInputButtonPanelInput = true
+  render(){
+    const {value, innerID,...others} = this.props
+    return <input data-id={innerID} {...others}/>
+  }
 }
 
 class InnerButton extends React.Component {
