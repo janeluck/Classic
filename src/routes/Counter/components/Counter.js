@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {InputButtonPanelExample} from './InputButtonPanel/index.js'
 import InputButtonPanel from './InputButtonPanel/index.js'
 import 'components/lib/APromise'
-
+import _ from 'lodash'
 class Counter extends Component{
   constructor(props){
     super(props)
@@ -18,6 +18,7 @@ class Counter extends Component{
   }
   render(){
     const { counter, increment, doubleAsync } = this.props
+    console.log(React.isValidElement((<div>22222</div>)))
     return ( <div style={{ margin: '0 auto' }} >
     <h2>Counter: {counter}</h2>
     <button className='btn btn-primary' onClick={increment}>
@@ -47,4 +48,6 @@ Counter.propTypes = {
   doubleAsync: PropTypes.func.isRequired,
 }
 
+console.log(_.isPlainObject(Counter))
+console.log(Counter)
 export default Counter
