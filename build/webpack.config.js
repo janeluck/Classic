@@ -38,6 +38,11 @@ const config = {
     rules: [],
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      '_': 'lodash',
+      'Immutable': 'immutable'
+
+    }),
     new webpack.DefinePlugin(Object.assign({
       'process.env': {NODE_ENV: JSON.stringify(project.env)},
       __DEV__,
