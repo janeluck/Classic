@@ -24,3 +24,15 @@ export const stopPropagation = function (nativeEvent) {
     nativeEvent.cancelBubble = true
   }
 }
+
+
+// 获取modifiers为true的键集合数组
+export const getEventModifiers = function (nativeEvent) {
+  return _.filter(['Ctrl', 'Shift', 'Alt', 'Meta'], (k) => {
+    if (nativeEvent.getModifierState) {
+      return nativeEvent.getModifierState(k);
+    }
+    return !!nativeEvent[`${k.toLowerCase()}Key`]
+  })
+}
+
