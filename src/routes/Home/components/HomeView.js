@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {Input} from 'antd'
 import DuckImage from '../assets/Duck.jpg'
 import './HomeView.scss'
+import {preventDefault, stopPropagation, getEventModifiers} from 'src/components/common/util'
+import getEventKey from 'src/components/common/getEventKey'
 //console.log(window.Immutable = Immutable)
 const a = Immutable.fromJS({spring: 0})
 console.log(a)
@@ -31,11 +33,27 @@ class A extends Component {
 
   }
   onKeyDown = (e) => {
+    e.persist()
+    console.log(e.nativeEvent)
+    console.log(e.getModifierState('Ctrl'))
+    e.getModifierState('Shift')
+    const nativeEvent = e.nativeEvent
 
+    const activeKeys = getEventModifiers(nativeEvent)
+    const currentKey = getEventKey(nativeEvent)
+    if(_.indexOf(activeKeys, currentKey) < 0){
+      activeKeys.push(currentKey)
+    }
+
+    preventDefault(nativeEvent)
+    stopPropagation(nativeEvent)
+    this.setState({
+      value: activeKeys.join('+')
+    })
   }
 
   render() {
-    return <Input type="text" value={this.state.value}
+    return <input type="text" value={this.state.value}
                   onChange={this.onChange}
                   onKeyDown={this.onKeyDown}
     />

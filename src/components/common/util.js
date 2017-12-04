@@ -25,14 +25,19 @@ export const stopPropagation = function (nativeEvent) {
   }
 }
 
-
+var modifierKeyToProp = {
+  Alt: 'altKey',
+  Control: 'ctrlKey',
+  Meta: 'metaKey',
+  Shift: 'shiftKey'
+}
 // 获取modifiers为true的键集合数组
 export const getEventModifiers = function (nativeEvent) {
-  return _.filter(['Ctrl', 'Shift', 'Alt', 'Meta'], (k) => {
+  return _.filter(Object.keys(modifierKeyToProp), (k) => {
     if (nativeEvent.getModifierState) {
       return nativeEvent.getModifierState(k);
     }
-    return !!nativeEvent[`${k.toLowerCase()}Key`]
+    return !!nativeEvent[modifierKeyToProp[k]]
   })
 }
 
