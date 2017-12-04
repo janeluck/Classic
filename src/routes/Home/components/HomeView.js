@@ -8,6 +8,9 @@ import getEventKey from 'src/components/common/getEventKey'
 const a = Immutable.fromJS({spring: 0})
 console.log(a)
 console.log(a.set('summer', 1))
+
+
+
 const C = function (...args) {
 
   _.forEach(args, param => {
@@ -36,12 +39,13 @@ class A extends Component {
     e.persist()
     console.log(e.nativeEvent)
     console.log(e.getModifierState('Ctrl'))
+    console.log(e.getModifierState('Control'))
     e.getModifierState('Shift')
     const nativeEvent = e.nativeEvent
 
     const activeKeys = getEventModifiers(nativeEvent)
     const currentKey = getEventKey(nativeEvent)
-    if(_.indexOf(activeKeys, currentKey) < 0){
+    if (currentKey !== '' && _.indexOf(activeKeys, currentKey) < 0) {
       activeKeys.push(currentKey)
     }
 
