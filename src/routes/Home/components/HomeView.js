@@ -9,31 +9,7 @@ const a = Immutable.fromJS({spring: 0})
 console.log(a)
 console.log(a.set('summer', 1))
 
-
-console.log(_.sortBy({
-    'a': {
-      isDefault: true,
-      name: 'a'
-    }, 'b': {
-      name: 'b',
-      isDefault: false
-    }, 'c': {
-      name: 'c',
-      isQuick: true
-    }, 'd': {
-      name: 'd',
-      isQuick: false
-    }, 'e': {
-      name: 'e'
-    }, 'f': {
-      name: 'f'
-    }
-  }, function (pay) {
-    if (pay.isDefault) return -2
-    if (pay.isQuick) return -1
-    return 0
-  }
-))
+console.log(_.sortBy([-2, -5, -1, -21, -2, 0, 9, 10, 22]))
 
 const C = function (...args) {
 
