@@ -4,6 +4,7 @@ import DuckImage from '../assets/Duck.jpg'
 import './HomeView.scss'
 import {preventDefault, stopPropagation, getEventModifiers} from 'src/components/common/util'
 import getEventKey from 'src/components/common/getEventKey'
+import math from 'mathjs'
 //console.log(window.Immutable = Immutable)
 const a = Immutable.fromJS({spring: 0})
 console.log(a)
@@ -19,10 +20,10 @@ const C = function (...args) {
 
   })
 }
-
+window.math = math
 C({name: 'a'}, {name: 'a', age: 18}, {name: {firstName: 'a'}})
 const b = a.set('summer', 1)
-
+console.log(math)
 class A extends Component {
   constructor(props) {
     super(props)
@@ -57,6 +58,12 @@ class A extends Component {
   }
 
   render() {
+    const a = function () {
+      console.log(2)
+      return 3
+    }
+    //debugger
+    const b = a()
     return <input type="text" value={this.state.value}
                   onChange={this.onChange}
                   onKeyDown={this.onKeyDown}
