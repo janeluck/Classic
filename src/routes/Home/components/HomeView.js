@@ -7,23 +7,9 @@ import getEventKey from 'src/components/common/getEventKey'
 import math from 'mathjs'
 //console.log(window.Immutable = Immutable)
 const a = Immutable.fromJS({spring: 0})
-console.log(a)
-console.log(a.set('summer', 1))
 
-console.log(_.sortBy([-2, -5, -1, -21, -2, 0, 9, 10, 22]))
 
-const C = function (...args) {
-
-  _.forEach(args, param => {
-
-    console.log(Immutable.fromJS(param))
-
-  })
-}
 window.math = math
-C({name: 'a'}, {name: 'a', age: 18}, {name: {firstName: 'a'}})
-const b = a.set('summer', 1)
-console.log(math)
 class A extends Component {
   constructor(props) {
     super(props)
