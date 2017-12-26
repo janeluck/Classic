@@ -71,7 +71,14 @@ APromise.reject = function (value) {
     reject(value)
   })
 }
+APromise.all = function (arg) {
+  // 必须是promise组成的数组
+  return new APromise(function (resolve, reject) {
+    while(p){
 
+    }
+  })
+}
 var p = new APromise(function (resolve, reject) {
   console.log('new APromise')
   resolve()

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Input} from 'antd'
+import {Input, InputNumber} from 'antd'
 import DuckImage from '../assets/Duck.jpg'
 import './HomeView.scss'
 import {preventDefault, stopPropagation, getEventModifiers} from 'src/components/common/util'
@@ -9,8 +9,8 @@ import math from 'mathjs'
 const a = Immutable.fromJS({spring: 0})
 import addEventListener from 'add-dom-event-listener'
 import 'src/components/lib/APromise.js'
-window.math = math
 
+window.math = math
 
 
 class A extends Component {
@@ -47,13 +47,24 @@ class A extends Component {
     }, this.onChange)
   }
 
+
   render() {
 
-    return <input type="text" value={this.state.value}
-                  onChange={this.onChange}
-                  onKeyDown={this.onKeyDown}
+    return <div><input type="text" value={this.state.value}
+                       onChange={this.onChange}
+                       onKeyDown={this.onKeyDown}
     />
-
+      <InputNumber
+        upHandler={<span
+              unselectable="unselectable"
+              className={`ant-input-number-handler ant-input-number-handler-up-inner `}
+              onClick={function () {
+                 alert(333)
+                 preventDefault()
+              }}
+            />}
+      />
+    </div>
   }
 }
 
@@ -64,8 +75,9 @@ class MyInput extends Component {
       value: ''
     }
   }
-  componentDidMount(){
-    addEventListener(document, 'selectionchange', (e)=>{
+
+  componentDidMount() {
+    addEventListener(document, 'selectionchange', (e) => {
       console.log(e)
     })
   }
@@ -74,13 +86,14 @@ class MyInput extends Component {
     const v = e.target.value
     console.log(v)
     this.setState({
-      value:  v
+      value: v
     })
   }
 
   handleClick = () => {
     console.log(11111)
   }
+
   render() {
     return <div>
       <button onClick={_.throttle(this.handleClick, 3000)}>click</button>
@@ -97,6 +110,7 @@ export const HomeView = () => (
       console.log(e)
       debugger
     }}/>
+    <A />
   </div>
 )
 
