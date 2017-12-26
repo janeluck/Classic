@@ -28,7 +28,7 @@ export const stopPropagation = function (nativeEvent) {
 var keyNameToModifer = {
   Alt: ['Alt', 'altKey'],
   Ctrl: ['Control', 'ctrlKey'],
-  Windows: ['Meta', 'metaKey'],
+  Meta: ['Meta', 'metaKey'],
   Shift: ['Shift', 'shiftKey']
 }
 // 获取modifiers为true的键集合数组

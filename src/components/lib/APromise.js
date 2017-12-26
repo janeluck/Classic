@@ -1,4 +1,5 @@
 import _ from 'lodash'
+//import BPromise from  'es6-promise'
 // 三种状态
 const PENDING = 'pending'
 const RESOLVED = 'resolved'
@@ -43,7 +44,7 @@ class APromise {
 
 
   then(onResolve, onReject) {
-   // this.next({onResolve, onReject})
+    // this.next({onResolve, onReject})
     return new APromise((resolve, reject) => {
       this.next({
         onResolve: (result) => {
@@ -56,6 +57,19 @@ class APromise {
     })
 
   }
+
+
+}
+
+APromise.resolve = function (value) {
+  return new APromise(function(resolve){
+    resolve(value)
+  })
+}
+APromise.reject = function (value) {
+  return new APromise(function(resolve, reject){
+    reject(value)
+  })
 }
 
 var p = new APromise(function (resolve, reject) {
@@ -71,3 +85,5 @@ p.then(function (data) {
   console.log('22222')
 })
 
+console.log(APromise.resolve('23'))
+console.log(APromise.reject('23'))

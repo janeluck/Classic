@@ -64,7 +64,7 @@ const translateToKey = {
   135: 'F24',
   144: 'NumLock',
   145: 'ScrollLock',
-  224: 'Windows'
+  224: 'Meta'
 }
 
 
