@@ -147,7 +147,7 @@ const numberPadKey = {
 
 const keysCollect = _.assign({}, stringKey, numberPadKey, specialKey, translateToKey)
 
-// 获取键名
+// 获取键名keydown
 const getEventKey = function (nativeEvent) {
   const charCode = nativeEvent.keyCode || nativeEvent.which
   if (nativeEvent.key) {

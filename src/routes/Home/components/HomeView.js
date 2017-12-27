@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Input, InputNumber} from 'antd'
+import {Input, InputNumber, Icon} from 'antd'
 import DuckImage from '../assets/Duck.jpg'
 import './HomeView.scss'
 import {preventDefault, stopPropagation, getEventModifiers} from 'src/components/common/util'
@@ -27,43 +27,43 @@ class A extends Component {
     console.log(this.state.value)
   }
   onKeyDown = (e) => {
-    e.persist()
-    console.log(e.nativeEvent)
-    console.log(e.getModifierState('Ctrl'))
-    console.log(e.getModifierState('Control'))
-    e.getModifierState('Shift')
+    //  e.persist()
     const nativeEvent = e.nativeEvent
-
     const activeKeys = getEventModifiers(nativeEvent)
     const currentKey = getEventKey(nativeEvent)
     if (currentKey !== '' && _.indexOf(activeKeys, currentKey) < 0) {
       activeKeys.push(currentKey)
     }
-
-    preventDefault(nativeEvent)
-    stopPropagation(nativeEvent)
+    e.preventDefault()
+    e.stopPropagation()
     this.setState({
       value: activeKeys.join('+')
     }, this.onChange)
   }
 
+  clear = () => {
+    this.setState({
+      value: ''
+    })
+  }
 
   render() {
 
-    return <div><input type="text" value={this.state.value}
+    return <div><Input type="text" value={this.state.value}
                        onChange={this.onChange}
                        onKeyDown={this.onKeyDown}
     />
-      <InputNumber
+      <span onClick={this.clear}>x</span>
+{/*      <InputNumber
         upHandler={<span
-              unselectable="unselectable"
-              className={`ant-input-number-handler ant-input-number-handler-up-inner `}
-              onClick={function () {
-                 alert(333)
-                 preventDefault()
-              }}
-            />}
-      />
+          unselectable="unselectable"
+          className={`ant-input-number-handler ant-input-number-handler-up-inner `}
+          onClick={function () {
+            alert(333)
+            preventDefault()
+          }}
+        />}
+      />*/}
     </div>
   }
 }
@@ -105,12 +105,8 @@ class MyInput extends Component {
 export const HomeView = () => (
   <div>
     <h4>Welcome!</h4>
-    <MyInput/>
-    <input value="outcontrol input" onChange={function (e) {
-      console.log(e)
-      debugger
-    }}/>
-    <A />
+
+    <A/>
   </div>
 )
 
