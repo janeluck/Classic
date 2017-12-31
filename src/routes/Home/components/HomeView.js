@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Input, InputNumber, Icon} from 'antd'
+import {Input, InputNumber, Icon, Button} from 'antd'
 import DuckImage from '../assets/Duck.jpg'
 import './HomeView.scss'
 import {preventDefault, stopPropagation, getEventModifiers} from 'src/components/common/util'
@@ -10,9 +10,16 @@ const a = Immutable.fromJS({spring: 0})
 import addEventListener from 'add-dom-event-listener'
 import 'src/components/lib/APromise.js'
 
-window.math = math
+const { Map } = Immutable
+const originalMap = Map({ a: 1, b: 2, c: 3 })
+const updatedMap = originalMap.set('b', 2)
+console.log(updatedMap === originalMap) // No-op .set() returned the original reference.
+const c = Immutable.Map({
+  a: 'jane'
+})
 
-
+window.Immutable = Immutable
+const d = c.set('b', 'lucy')
 class A extends Component {
   constructor(props) {
     super(props)
@@ -41,20 +48,32 @@ class A extends Component {
     }, this.onChange)
   }
 
-  clear = () => {
+  clear = (e) => {
+
+    e.preventDefault()
     this.setState({
       value: ''
     })
   }
+  onBlur = () => {
+
+  }
+
+  iconClick = (e) => {
+
+  }
 
   render() {
 
-    return <div><Input type="text" value={this.state.value}
-                       onChange={this.onChange}
-                       onKeyDown={this.onKeyDown}
+    return <span onBlur={this.onBlur}><Input type="text" value={this.state.value}
+                                             onChange={this.onChange}
+                                             onKeyDown={this.onKeyDown}
+                                             suffix={<Icon type="cross-circle-o"
+                                                           onClick={this.clear}/>}
+
     />
-      <span onClick={this.clear}>x</span>
-{/*      <InputNumber
+
+      {/*      <InputNumber
         upHandler={<span
           unselectable="unselectable"
           className={`ant-input-number-handler ant-input-number-handler-up-inner `}
@@ -64,7 +83,7 @@ class A extends Component {
           }}
         />}
       />*/}
-    </div>
+    </span>
   }
 }
 
@@ -102,11 +121,72 @@ class MyInput extends Component {
 }
 
 
+class B extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: ''
+    }
+  }
+
+  componentDidMount() {
+
+  }
+
+  onChange = (e) => {
+
+  }
+
+  handleClick = () => {
+    console.log('clicked')
+    this.setState({
+      loading: true
+    }, ()=>{
+      setTimeout(()=>{
+        this.setState({
+          loading: false
+        })
+      }, 2000)
+    })
+  }
+
+  ondivBlur = (e) => {
+
+  }
+  oninputBlur = (e) => {
+
+  }
+  ondivFocus = (e) => {
+
+  }
+  oninputFocus = (e) => {
+
+  }
+  ondivClick = (e) => {
+
+  }
+  oninputClick = (e) => {
+
+  }
+
+  render() {
+    return <div onBlur={this.ondivBlur} onFocus={this.ondivFocus} onClick={this.ondivClick}>
+      <input type="text" onBlur={this.oninputBlur} onFocus={this.oninputFocus} onClick={this.oninputClick}/>
+      <div>
+        <Button disabled={this.state.loading} onClick={this.handleClick}>
+
+        </Button>
+      </div>
+    </div>
+  }
+}
+
+
 export const HomeView = () => (
   <div>
     <h4>Welcome!</h4>
-
     <A/>
+    <B/>
   </div>
 )
 
