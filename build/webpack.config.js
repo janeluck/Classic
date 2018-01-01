@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const NpmInstallPlugin = require('npm-install-webpack-plugin')
 const project = require('../project.config')
 
 const inProject = path.resolve.bind(path, project.basePath)
@@ -196,6 +197,12 @@ config.plugins.push(new HtmlWebpackPlugin({
     collapseWhitespace: true,
   },
 }))
+
+
+// auto install library
+config.plugins.push(new NpmInstallPlugin())
+
+
 
 // Development Tools
 // ------------------------------------
