@@ -9,9 +9,10 @@ import math from 'mathjs'
 const a = Immutable.fromJS({spring: 0})
 import addEventListener from 'add-dom-event-listener'
 import 'src/components/lib/APromise.js'
+import _ from 'lodash'
 
-const { Map } = Immutable
-const originalMap = Map({ a: 1, b: 2, c: 3 })
+const {Map} = Immutable
+const originalMap = Map({a: 1, b: 2, c: 3})
 const updatedMap = originalMap.set('b', 2)
 console.log(updatedMap === originalMap) // No-op .set() returned the original reference.
 const c = Immutable.Map({
@@ -20,6 +21,7 @@ const c = Immutable.Map({
 
 window.Immutable = Immutable
 const d = c.set('b', 'lucy')
+
 class A extends Component {
   constructor(props) {
     super(props)
@@ -141,8 +143,8 @@ class B extends Component {
     console.log('clicked')
     this.setState({
       loading: true
-    }, ()=>{
-      setTimeout(()=>{
+    }, () => {
+      setTimeout(() => {
         this.setState({
           loading: false
         })
@@ -191,3 +193,77 @@ export const HomeView = () => (
 )
 
 export default HomeView
+
+
+var str0 = 'abcdef', str1 = 'acdebwr'
+
+
+// 生成子集集合, 数量为2的N次方, 包括空字符串和字符串本身
+function generateChildren(str) {
+  var children = []
+  for (let i = 0; i < str.length; i++) {
+    for (let j = i; j < str.length; j++) {
+      children.push(str.substr(i, j))
+    }
+  }
+  return children
+}
+
+// 穷举搜索法
+function getCommonLongStr(str0, str1) {
+  var commonCollect = []
+  // 拿到所有的公共子序列
+  for (let i = 0; i < str0.length; i++) {
+    for (let j = i; j < str0.length; j++) {
+      const child = str0.substr(i, j)
+      if (str1.indexOf(child) > -1) {
+        commonCollect.push(child)
+      }
+    }
+  }
+  //
+
+  const result = _.sortBy(commonCollect, item => {
+    return item.length
+  })
+  return result.length > 0 ? result[result.length - 1] : ''
+
+}
+
+console.log(getCommonLongStr(str0, str1))
+
+
+
+
+
+// by jane
+function KnapsackProblem(weights, values, W) {
+  const n = weights.length, f = [[]]
+  for (let j = 0; j <= W; j++) {
+    if (j < weights[0]) {
+      f[0][j] = 0
+    } else {
+      f[0][j] = values[0]
+    }
+
+  }
+
+  for (let j = 0; j <= W; j++) {
+    for (let i = 1; i < n; i++) {
+      if (!f[i]) {
+        f[i] = []
+      }
+
+      if (j < weights[i]) {
+        f[i][j] = f[i - 1][j]
+      } else {
+        f[i][j] = Math.max(f[i-1][j], f[i-1][j-weights[i]] + values[i])
+      }
+    }
+  }
+
+  return f[n-1][W]
+}
+
+console.log('KnapsackAnswer:')
+console.log(KnapsackProblem([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
