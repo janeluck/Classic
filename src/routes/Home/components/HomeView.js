@@ -245,7 +245,7 @@ function KnapsackProblem(weights, values, W) {
           f[0][j] = values[0]
         }
       } else {
-        if(typeof  f[i] === 'undefined'){
+        if (typeof  f[i] === 'undefined') {
           f[i] = []
         }
         if (j < weights[i]) {
@@ -263,3 +263,31 @@ function KnapsackProblem(weights, values, W) {
 
 console.log('KnapsackAnswer:')
 console.log(KnapsackProblem([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
+
+
+// 优化版
+
+
+function KnapsackProblem01(weights, values, W) {
+  const n = weights.length
+  let f = new Array(n)
+  f[-1] = new Array(W + 1).fill(0)
+
+  for (let j = 0; j <= W; j++) {
+    for (let i = 0; i < n; i++) {
+      if (typeof  f[i] === 'undefined') {
+        f[i] = []
+      }
+      if (j < weights[i]) {
+        f[i][j] = f[i - 1][j]
+      } else {
+        f[i][j] = Math.max(f[i - 1][j], f[i - 1][j - weights[i]] + values[i])
+      }
+    }
+  }
+
+  return f[n-1][W]
+}
+
+console.log('KnapsackAnswer01:')
+console.log(KnapsackProblem01([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
