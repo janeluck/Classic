@@ -233,36 +233,32 @@ function getCommonLongStr(str0, str1) {
 console.log(getCommonLongStr(str0, str1))
 
 
-
-
-
 // by jane
 function KnapsackProblem(weights, values, W) {
   const n = weights.length, f = [[]]
   for (let j = 0; j <= W; j++) {
-    if (j < weights[0]) {
-      f[0][j] = 0
-    } else {
-      f[0][j] = values[0]
-    }
-
-  }
-
-  for (let j = 0; j <= W; j++) {
-    for (let i = 1; i < n; i++) {
-      if (!f[i]) {
-        f[i] = []
-      }
-
-      if (j < weights[i]) {
-        f[i][j] = f[i - 1][j]
+    for (let i = 0; i < n; i++) {
+      if (i === 0) {
+        if (j < weights[0]) {
+          f[0][j] = 0
+        } else {
+          f[0][j] = values[0]
+        }
       } else {
-        f[i][j] = Math.max(f[i-1][j], f[i-1][j-weights[i]] + values[i])
+        if(typeof  f[i] === 'undefined'){
+          f[i] = []
+        }
+        if (j < weights[i]) {
+          f[i][j] = f[i - 1][j]
+        } else {
+          f[i][j] = Math.max(f[i - 1][j], f[i - 1][j - weights[i]] + values[i])
+        }
       }
+
     }
   }
 
-  return f[n-1][W]
+  return f[n - 1][W]
 }
 
 console.log('KnapsackAnswer:')
