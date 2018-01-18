@@ -269,10 +269,12 @@ console.log(KnapsackProblem([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
 
 
 function KnapsackProblem01(weights, values, W) {
-  const n = weights.length
-  let f = new Array(n)
+
+  const n = weights.length, selected = []
+  let finalV, f = new Array(n)
   f[-1] = new Array(W + 1).fill(0)
 
+  // 计算最大价值
   for (let j = 0; j <= W; j++) {
     for (let i = 0; i < n; i++) {
       if (typeof  f[i] === 'undefined') {
@@ -286,7 +288,18 @@ function KnapsackProblem01(weights, values, W) {
     }
   }
 
-  return f[n-1][W]
+
+  finalV = f[n - 1][W]
+  // 逆向找到所放物品
+  for (let i = n - 1; i >= 0; i--) {
+    if (finalV > f[i-1][W] ) {
+      finalV = f[i-1][W - weights[i]]
+      selected.push(i)
+      console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
+    }
+
+  }
+  return [f[n - 1][W], selected.reverse()]
 }
 
 console.log('KnapsackAnswer01:')
