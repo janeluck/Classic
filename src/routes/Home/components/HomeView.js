@@ -234,6 +234,7 @@ console.log(getCommonLongStr(str0, str1))
 
 
 // by jane
+// 01背包问题
 function KnapsackProblem(weights, values, W) {
   const n = weights.length, f = [[]]
   for (let j = 0; j <= W; j++) {
@@ -292,8 +293,8 @@ function KnapsackProblem01(weights, values, W) {
   finalV = f[n - 1][W]
   // 逆向找到所放物品
   for (let i = n - 1; i >= 0; i--) {
-    if (finalV > f[i-1][W] ) {
-      finalV = f[i-1][W - weights[i]]
+    if (finalV > f[i - 1][W]) {
+      finalV = f[i - 1][W - weights[i]]
       selected.push(i)
       console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
     }
@@ -304,3 +305,24 @@ function KnapsackProblem01(weights, values, W) {
 
 console.log('KnapsackAnswer01:')
 console.log(KnapsackProblem01([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
+
+
+// 完全背包问题
+function completeKnapsack(weights, values, W) {
+
+  const n = weights.length, f = []
+  f[-1] = new Array(W + 1).fill(0)
+
+  for (let i = 0; i < n; i++) {
+    f[i] = []
+    for (let j = 0; j <= W; j++) {
+      for (let k = 0; k <= j / weights[i]; k++) {
+        f[i][j] = Math.max(f[i - 1][j], f[i - 1][j - k * weights[i]] + k * values[i])
+      }
+    }
+  }
+  return f[n - 1][W]
+}
+
+console.log(completeKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
+console.log(completeKnapsack([3,2,2],[5,10,20], 5))
