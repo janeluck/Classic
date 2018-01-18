@@ -276,11 +276,9 @@ function KnapsackProblem01(weights, values, W) {
   f[-1] = new Array(W + 1).fill(0)
 
   // 计算最大价值
-  for (let j = 0; j <= W; j++) {
-    for (let i = 0; i < n; i++) {
-      if (typeof  f[i] === 'undefined') {
-        f[i] = []
-      }
+  for (let i = 0; i < n; i++) {
+     f[i] = []
+    for (let j = 0; j <= W; j++) {
       if (j < weights[i]) {
         f[i][j] = f[i - 1][j]
       } else {
@@ -325,4 +323,4 @@ function completeKnapsack(weights, values, W) {
 }
 
 console.log(completeKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
-console.log(completeKnapsack([3,2,2],[5,10,20], 5))
+console.log(completeKnapsack([3, 2, 2], [5, 10, 20], 5))
