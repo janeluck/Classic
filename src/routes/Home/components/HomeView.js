@@ -277,7 +277,7 @@ function KnapsackProblem01(weights, values, W) {
 
   // 计算最大价值
   for (let i = 0; i < n; i++) {
-     f[i] = []
+    f[i] = []
     for (let j = 0; j <= W; j++) {
       if (j < weights[i]) {
         f[i][j] = f[i - 1][j]
@@ -324,3 +324,24 @@ function completeKnapsack(weights, values, W) {
 
 console.log(completeKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
 console.log(completeKnapsack([3, 2, 2], [5, 10, 20], 5))
+
+// 多重背包问题
+function multipleKnapsack(weights, values, numbers, W) {
+  const n = weights.length, f = []
+  f[-1] = new Array(W + 1).fill(0)
+
+  for (let i = 0; i < n; i++) {
+    f[i] = []
+    for (let j = 0; j <= W; j++) {
+      for (let k = 0; k <= j / weights[i] && k <= numbers[i]; k++) {
+        f[i][j] = Math.max(f[i - 1][j], f[i - 1][j - k * weights[i]] + k * values[i])
+      }
+    }
+  }
+  return f[n - 1][W]
+
+
+}
+
+console.log(multipleKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], [2, 3, 5, 1, 6], 10))
+console.log(multipleKnapsack([2,3,1 ],[2,3,4],[1,4,1],6))
