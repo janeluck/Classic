@@ -307,8 +307,8 @@ console.log(KnapsackProblem01([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
 
 // 完全背包问题
 function completeKnapsack(weights, values, W) {
-
-  const n = weights.length, f = []
+  let finalV
+  const n = weights.length, f = [], selected = []
   f[-1] = new Array(W + 1).fill(0)
 
   for (let i = 0; i < n; i++) {
@@ -319,11 +319,35 @@ function completeKnapsack(weights, values, W) {
       }
     }
   }
-  return f[n - 1][W]
+
+
+  // 逆向找到所放物品
+  finalV = f[n - 1][W]
+  for (let i = n - 1; i >= 0; i--) {
+    /* for (let k = Math.floor(W / weights[i]); k > 0; k--) {
+       if (finalV >= f[i - 1][W] + k * values[i]) {
+         finalV = f[i - 1][W - k * weights[i]]
+         selected.push(i)
+         console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
+       }
+     }*/
+
+    for (let k = 0; k <= W / weights[i]; k++) {
+      if (finalV > f[i - 1][W - weights[i] * k]) {
+        finalV = f[i - 1][W - weights[i] * k]
+        selected.push(i)
+        console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
+      }
+    }
+  }
+
+  return [f[n - 1][W], selected.reverse()]
 }
 
-console.log(completeKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
-console.log(completeKnapsack([3, 2, 2], [5, 10, 20], 5))
+console.log('completeKnapsack:')
+console.log(completeKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 30))
+console.log('completeKnapsack:')
+console.log(completeKnapsack([3, 2, 2], [5, 10, 20], 85))
 
 // 多重背包问题
 function multipleKnapsack(weights, values, numbers, W) {
@@ -343,5 +367,5 @@ function multipleKnapsack(weights, values, numbers, W) {
 
 }
 
-console.log(multipleKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], [2, 3, 5, 1, 6], 10))
-console.log(multipleKnapsack([2,3,1 ],[2,3,4],[1,4,1],6))
+//console.log(multipleKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], [2, 3, 5, 1, 6], 10))
+//console.log(multipleKnapsack([2, 3, 1], [2, 3, 4], [1, 4, 1], 6))
