@@ -399,23 +399,77 @@ function multipleKnapsack(weights, values, numbers, W) {
 //console.log(multipleKnapsack([2, 3, 1], [2, 3, 4], [1, 4, 1], 6))
 // c数组记录最长公共子序列的长度
 function lcs(X, Y) {
-  const xLength = X.length, yLength = Y.length, c = []
+  const xLength = X.length, yLength = Y.length, c = [], b = []
   c[-1] = new Array(yLength).fill(0)
   for (let i = 0; i < xLength; i++) {
+    b[i] = []
     c[i] = []
     c[i][-1] = 0
     for (let j = 0; j < yLength; j++) {
       if (X[i] === Y[j]) {
         c[i][j] = c[i][j - 1] + 1
+        b[i][j] = 0
       } else {
-        c[i][j] = Math.max(c[i - 1][j], c[i][j - 1])
+        //c[i][j] = Math.max(c[i - 1][j], c[i][j - 1])
+
+        if (c[i - 1][j] > c[i][j - 1]) {
+          c[i][j] = c[i - 1][j]
+          b[i][j] = 1
+        } else {
+          c[i][j] = c[i][j - 1]
+          b[i][j] = 2
+
+        }
+
       }
-
-
     }
   }
 
-  return c[xLength - 1][yLength - 1]
+
+  return [c, b]
 }
 
+
 console.log(lcs('ABCDAB', 'BADABA'))
+
+// C数组记录最长公共子序列矩阵
+function LCS(X, Y) {
+  const xLength = X.length, yLength = Y.length, C = []
+  C[-1] = new Array(yLength).fill(0)
+  for (let i = 0; i < xLength; i++) {
+    C[i] = []
+    C[i][-1] = 0
+    for (let j = 0; j < yLength; j++) {
+      if (X[i] === Y[j]) {
+        C[i][j] = 0
+      } else {
+        if (C[i - 1][j] > C[i][j - 1]) {
+          C[i][j] = 1
+        } else {
+          C[i][j] = 2
+        }
+      }
+    }
+  }
+  return C
+
+}
+
+
+// 打印最长公共子序列矩阵
+function printLCS(lcsArr, X, Y, i, j) {
+  if (i === -1 || j === -1) {
+    return ''
+  }
+  if (lcsArr[i][j] === 0) {
+    return printLCS(lcsArr, X, Y, i - 1, j - 1) + X[i]
+  } else if (lcsArr[i][j] === 1) {
+    return printLCS(lcsArr, X, Y, i - 1, j)
+  } else {
+    return printLCS(lcsArr, X, Y, i, j - 1)
+  }
+}
+
+
+//console.log(LCS('ABCDAB', 'BADABA'))
+console.log(printLCS(lcs('ABCDAB', 'BADABA')[1], 'ABCDAB', 'BADABA', 5, 5))
