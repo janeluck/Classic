@@ -5,7 +5,7 @@ import './HomeView.scss'
 import {preventDefault, stopPropagation, getEventModifiers} from 'src/components/common/util'
 import getEventKey from 'src/components/common/getEventKey'
 import math from 'mathjs'
-//console.log(window.Immutable = Immutable)
+////console.log(window.Immutable = Immutable)
 const a = Immutable.fromJS({spring: 0})
 import addEventListener from 'add-dom-event-listener'
 import 'src/components/lib/APromise.js'
@@ -14,7 +14,7 @@ import _ from 'lodash'
 const {Map} = Immutable
 const originalMap = Map({a: 1, b: 2, c: 3})
 const updatedMap = originalMap.set('b', 2)
-console.log(updatedMap === originalMap) // No-op .set() returned the original reference.
+//console.log(updatedMap === originalMap) // No-op .set() returned the original reference.
 const c = Immutable.Map({
   a: 'jane'
 })
@@ -32,8 +32,8 @@ class A extends Component {
   }
 
   onChange = (e) => {
-    console.log(22)
-    console.log(this.state.value)
+    //console.log(22)
+    //console.log(this.state.value)
   }
   onKeyDown = (e) => {
     //  e.persist()
@@ -99,20 +99,20 @@ class MyInput extends Component {
 
   componentDidMount() {
     addEventListener(document, 'selectionchange', (e) => {
-      console.log(e)
+      //console.log(e)
     })
   }
 
   onChange = (e) => {
     const v = e.target.value
-    console.log(v)
+    //console.log(v)
     this.setState({
       value: v
     })
   }
 
   handleClick = () => {
-    console.log(11111)
+    //console.log(11111)
   }
 
   render() {
@@ -140,7 +140,7 @@ class B extends Component {
   }
 
   handleClick = () => {
-    console.log('clicked')
+    //console.log('clicked')
     this.setState({
       loading: true
     }, () => {
@@ -184,11 +184,30 @@ class B extends Component {
 }
 
 
+class C extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return <div>
+      <h1 onTouchEnd={
+        () => {
+          //console.log('C: onTouchEnd')
+        }
+      }>C</h1>
+      <h2>C</h2>
+    </div>
+  }
+
+}
+
 export const HomeView = () => (
   <div>
     <h4>Welcome!</h4>
     <A/>
     <B/>
+    <C/>
   </div>
 )
 
@@ -230,7 +249,7 @@ function getCommonLongStr(str0, str1) {
 
 }
 
-console.log(getCommonLongStr(str0, str1))
+//console.log(getCommonLongStr(str0, str1))
 
 
 // by jane
@@ -262,8 +281,8 @@ function KnapsackProblem(weights, values, W) {
   return f[n - 1][W]
 }
 
-console.log('KnapsackAnswer:')
-console.log(KnapsackProblem([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
+//console.log('KnapsackAnswer:')
+//console.log(KnapsackProblem([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
 
 
 // 优化版
@@ -294,15 +313,15 @@ function KnapsackProblem01(weights, values, W) {
     if (finalV > f[i - 1][W]) {
       finalV = f[i - 1][W - weights[i]]
       selected.push(i)
-      console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
+      //console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
     }
 
   }
   return [f[n - 1][W], selected.reverse()]
 }
 
-console.log('KnapsackAnswer01:')
-console.log(KnapsackProblem01([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
+//console.log('KnapsackAnswer01:')
+//console.log(KnapsackProblem01([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 10))
 
 
 // 完全背包问题
@@ -328,7 +347,7 @@ function completeKnapsack(weights, values, W) {
       if (finalV > f[i - 1][W - weights[i] * k]) {
         finalV = f[i - 1][W - weights[i] * k]
         selected.push(i)
-        console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
+        //console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
       }
     }
   }
@@ -336,10 +355,10 @@ function completeKnapsack(weights, values, W) {
   return [f[n - 1][W], selected.reverse()]
 }
 
-console.log('completeKnapsack:')
-console.log(completeKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 30))
-console.log('completeKnapsack:')
-console.log(completeKnapsack([3, 2, 2], [5, 10, 20], 85))
+//console.log('completeKnapsack:')
+//console.log(completeKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], 30))
+//console.log('completeKnapsack:')
+//console.log(completeKnapsack([3, 2, 2], [5, 10, 20], 85))
 
 // 多重背包问题
 function multipleKnapsack(weights, values, numbers, W) {
@@ -357,7 +376,6 @@ function multipleKnapsack(weights, values, numbers, W) {
   }
 
 
-
   // 逆向找到所放物品
   finalV = f[n - 1][W]
   for (let i = n - 1; i >= 0; i--) {
@@ -365,7 +383,7 @@ function multipleKnapsack(weights, values, numbers, W) {
       if (finalV > f[i - 1][W - weights[i] * k]) {
         finalV = f[i - 1][W - weights[i] * k]
         selected.push(i)
-        console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
+        //console.log(`背包里有第${i}件物品, 价值为${values[i]}, 重量为${weights[i]}`)
       }
     }
   }
@@ -374,7 +392,30 @@ function multipleKnapsack(weights, values, numbers, W) {
 
 
 }
-console.log('multipleKnapsack:')
-console.log(multipleKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], [2, 3, 5, 1, 6], 10))
-console.log('multipleKnapsack:')
-console.log(multipleKnapsack([2, 3, 1], [2, 3, 4], [1, 4, 1], 6))
+
+//console.log('multipleKnapsack:')
+//console.log(multipleKnapsack([2, 2, 6, 5, 4], [6, 3, 5, 4, 6], [2, 3, 5, 1, 6], 10))
+//console.log('multipleKnapsack:')
+//console.log(multipleKnapsack([2, 3, 1], [2, 3, 4], [1, 4, 1], 6))
+// c数组记录最长公共子序列的长度
+function lcs(X, Y) {
+  const xLength = X.length, yLength = Y.length, c = []
+  c[-1] = new Array(yLength).fill(0)
+  for (let i = 0; i < xLength; i++) {
+    c[i] = []
+    c[i][-1] = 0
+    for (let j = 0; j < yLength; j++) {
+      if (X[i] === Y[j]) {
+        c[i][j] = c[i][j - 1] + 1
+      } else {
+        c[i][j] = Math.max(c[i - 1][j], c[i][j - 1])
+      }
+
+
+    }
+  }
+
+  return c[xLength - 1][yLength - 1]
+}
+
+console.log(lcs('ABCDAB', 'BADABA'))
