@@ -471,7 +471,5 @@ function printLCS(lcsArr, X, Y, i, j) {
 }
 
 
-//console.log(LCS('ABCDAB', 'BADABA'))
-//console.log(printLCS(lcs('ABCDAB', 'BADABA')[1], 'ABCDAB', 'BADABA', 5, 5))
 
-Diff('ABCDAB', 'BADABA')
+Diff('ABCDAXACB', 'BADABA')

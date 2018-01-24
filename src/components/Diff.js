@@ -59,9 +59,11 @@ export default function Diff(X, Y) {
   for (let i = 0; i < LCS.length; i++) {
     for (let m = mStart; m < X.length; m++) {
       if (X[m] === LCS[i]) {
-        X.slice(mStart, m) !== '' && result.push({
-          'signal': '-',
-          'str': X.slice(mStart, m)
+        X.slice(mStart, m).split('').map(function (str) {
+          result.push({
+            'signal': '-',
+            'str': str
+          })
         })
         mStart = m + 1
         break
@@ -70,9 +72,11 @@ export default function Diff(X, Y) {
 
     for (let n = nStart; n < Y.length; n++) {
       if (Y[n] === LCS[i]) {
-        Y.slice(nStart, n) !== '' && result.push({
-          'signal': '+',
-          'str': Y.slice(nStart, n)
+        Y.slice(nStart, n).split('').map(function (str) {
+          result.push({
+            'signal': '+',
+            'str': str
+          })
         })
         nStart = n + 1
         break
