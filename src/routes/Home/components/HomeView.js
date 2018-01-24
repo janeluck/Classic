@@ -10,7 +10,7 @@ const a = Immutable.fromJS({spring: 0})
 import addEventListener from 'add-dom-event-listener'
 import 'src/components/lib/APromise.js'
 import _ from 'lodash'
-
+import Diff from 'src/components/Diff'
 const {Map} = Immutable
 const originalMap = Map({a: 1, b: 2, c: 3})
 const updatedMap = originalMap.set('b', 2)
@@ -472,4 +472,6 @@ function printLCS(lcsArr, X, Y, i, j) {
 
 
 //console.log(LCS('ABCDAB', 'BADABA'))
-console.log(printLCS(lcs('ABCDAB', 'BADABA')[1], 'ABCDAB', 'BADABA', 5, 5))
+//console.log(printLCS(lcs('ABCDAB', 'BADABA')[1], 'ABCDAB', 'BADABA', 5, 5))
+
+Diff('ABCDAB', 'BADABA')
