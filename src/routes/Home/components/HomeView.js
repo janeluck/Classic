@@ -473,3 +473,7 @@ function printLCS(lcsArr, X, Y, i, j) {
 
 
 Diff('ABCDAXACB', 'BADABA')
+
+var promiseA = new Promise(function (resolve, reject) {
+  reject(2222)
+})
