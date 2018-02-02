@@ -5,7 +5,7 @@ const logger = require('../build/lib/logger')
 const webpackConfig = require('../build/webpack.config')
 const project = require('../project.config')
 const compress = require('compression')
-
+const sleep = require('sleep')
 const app = express()
 app.use(compress())
 
@@ -62,6 +62,7 @@ if (project.env === 'development') {
       res.header("Access-Control-Allow-Origin", "http://localhost:3003");
       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       res.set('content-type', 'application/json')
+      sleep.sleep(200)
       res.send(JSON.stringify({code: 200, data: 'jane'}))
       res.end()
     })
