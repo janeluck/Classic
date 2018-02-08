@@ -11,7 +11,7 @@ const result = data.map(function(item){
     value: Math.floor(Math.random() * 200)
   }
 })
-fs.writeFile(path.resolve(__dirname, 'japan.state.result.json'), JSON.stringify(result))
+fs.writeFile(path.resolve(__dirname, 'japan.state.result.json'), JSON.stringify(result, null, '\t'))
 
 
 
