@@ -4,18 +4,9 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {Chart, Tooltip, Legend, View, Polygon, Point} from 'viser-react';
 import geoData from '../../../../data/japan.geo.json'
-
-console.log(geoData)
+import data from '../../../../data/japan.state.result.json'
 const DataSet = require('@antv/data-set');
-
-const japanStateName = '"Kyoto Fu", "Saga Ken","Kumamoto Ken","Kagawa Ken","Aichi Ken","Tochigi Ken","Yamanashi Ken","Shiga Ken","Gunma Ken","Miyagi Ken","Shizuoka Ken","Ibaraki Ken","Okinawa Ken","Yamagata Ken","Wakayama Ken","Nagasaki Ken","Akita Ken","Okayama Ken","Fukuoka Ken","Gifu Ken","Aomori Ken","Osaka Fu","Nagano Ken","Oita Ken","Mie Ken","Hiroshima Ken","Hokkai Do","Hyogo Ken","Chiba Ken","Toyama Ken","Tokyo To","Saitama Ken","Yamaguchi Ken","Fukushima Ken","Ishikawa Ken","Fukui Ken","Ehime Ken","Nara Ken","Shimane Ken","Iwate Ken","Tottori Ken","Tokushima Ken","Kagoshima Ken","Niigata Ken","Kochi Ken","Miyazaki Ken","Kanagawa Ken"'
-
-const data = japanStateName.replace(/"/g, '').split(',').map(function (name) {
-  return {
-    name,
-    value: Math.floor(Math.random() * 150)
-  }
-})
+//console.log(geoData)
 console.log(data)
 const scale = [{
   dataKey: 'longitude',
