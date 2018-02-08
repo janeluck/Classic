@@ -1,13 +1,10 @@
 import React, {Component} from 'react'
-import {Map, MarkerGroup, PolygonGroup} from 'react-d3-map'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {Chart, Tooltip, Legend, View, Polygon, Point} from 'viser-react';
 import geoData from '../../../../data/japan.geo.json'
 import data from '../../../../data/japan.state.result.json'
 const DataSet = require('@antv/data-set');
-//console.log(geoData)
-console.log(data)
 const scale = [{
   dataKey: 'longitude',
   sync: true,
@@ -66,7 +63,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <Chart forceFit height={400} padding={[20, 20]} scale={scale}>
+        <Chart forceFit height={600} padding={[20, 20]} scale={scale}>
           <Tooltip showTitle={false}/>
           <Legend dataKey={'trend'} position={'left'}/>
           <View data={geoData} scale={scale}>
